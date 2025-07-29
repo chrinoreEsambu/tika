@@ -14,6 +14,6 @@ const Port = process.env.PORT || 5000;
       console.log(`Server is up on http://localhost:${Port}`);
     });
   } catch (error) {
-    console.log("error when starting server", error);
+    console.log("error when starting server", error.message);
   }
 })();

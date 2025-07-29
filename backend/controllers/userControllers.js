@@ -4,10 +4,10 @@ const session = require("express-session");
 
 exports.createUser = async (req, res) => {
   try {
-    const { nom, mail, password } = req.body;
+    const { name, email, phone, password, address } = req.body;
     const date = new Date().getFullYear();
-    const suffix = Math.floor(100 + Math.random() * 900);
-    const user_id = `${date}todox${suffix}`;
+    const suffix = Math.floor(1 + Math.random() * 900);
+    const id = `${date}tika${suffix}`;
 
     const hachpass = await argon2.hash(password, {
       type: argon2.argon2id,
@@ -19,9 +19,11 @@ exports.createUser = async (req, res) => {
 
     const usercreation = await prisma.users.create({
       data: {
-        user_id,
-        nom,
-        mail,
+        id,
+        name,
+        phone,
+        email,
+        address,
         password: hachpass,
       },
     });
