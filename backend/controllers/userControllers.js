@@ -1,5 +1,5 @@
 const argon2 = require("argon2");
-const prisma = require("../config/prismaClient").default;
+const prisma = require("../config/prismaClient");
 const session = require("express-session");
 
 exports.createUser = async (req, res) => {
@@ -17,13 +17,13 @@ exports.createUser = async (req, res) => {
       parallelism: 3,
     });
 
-    const usercreation = await prisma.users.create({
+    const usercreation = await prisma.user.create({
       data: {
         id: id,
         name: name,
         phone: phone,
         email: email,
-        address: address,
+        address: address || Null,
         password: hachpass,
       },
     });
@@ -38,7 +38,7 @@ exports.createUser = async (req, res) => {
 exports.connexion = async (req, res) => {
   try {
     const { user_id, password } = req.body;
-    const userfinder = await prisma.users.findUnique({
+    const userfinder = await prisma.user.findUnique({
       where: { mail: user_id },
     });
 
@@ -68,7 +68,7 @@ exports.connexion = async (req, res) => {
 
 exports.userDelete = async (req, res) => {
   async function finder(user_id) {
-    return await prisma.users.findUnique({
+    return await prisma.user.findUnique({
       where: {
         user_id: user_id,
       },
@@ -82,7 +82,7 @@ exports.userDelete = async (req, res) => {
         message: "User doesn't exit !",
       });
     }
-    const deleted = await prisma.users.delete({
+    const deleted = await prisma.user.delete({
       where: {
         user_id: user_id,
       },

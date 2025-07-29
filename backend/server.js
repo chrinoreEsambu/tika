@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express();
-const { middleware } = require("./middleware/middeleware");
+const { middleware, validate } = require("./middleware/middeleware");
 const router = require("./router/Allrouter");
 require("dotenv").config();
 
 app.use(middleware);
 app.use(router);
-
+app.use(validate);
 const Port = process.env.PORT || 5000;
 (async () => {
   try {

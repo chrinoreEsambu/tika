@@ -44,23 +44,19 @@ app.use(
 //   message: "too musch request",
 // });
 
-// exports.validate = async (req, res, next) => {
-//   const { nom, mail, password, role } = req.body;
-//   if (!nom || !mail || !password) {
-//     return res
-//       .status(400)
-//       .json({ message: "Tous les champs sont obligatoires" });
-//   }
-//   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) {
-//     return res.status(400).json({ message: "Format d'email invalide" });
-//   }
-//   if (role && role !== "admin" && role !== "users") {
-//     return res
-//       .status(400)
-//       .json({ message: "Rôle invalide. Choisissez 'admin' ou 'users'" });
-//   }
-//   next();
-// };
+exports.validate = async (req, res, next) => {
+  const { name, phone, email, password } = req.body;
+  if (!name || !phone || !email || !password) {
+    return res
+      .status(400)
+      .json({ message: "Tous les champs sont obligatoires" });
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ message: "Format d'email invalide" });
+  }
+
+  next();
+};
 
 // exports.schekrole = async (req, res, next) => {
 //   try {
