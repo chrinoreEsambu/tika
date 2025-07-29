@@ -41,13 +41,13 @@ model Event {
   date          DateTime
   location      String
   price         Float
-  totalTickets  Int
+  avalableTickets  Int
   ticketsSold   Int       @default(0)
   tickets       Ticket[]
 }
 
 model Ticket {
-  id          String   @id
+  id          String   @id @default(uuid())
   code        String   @unique
   paid        Boolean  @default(false)
   createdAt   DateTime @default(now())

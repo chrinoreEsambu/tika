@@ -37,9 +37,9 @@ exports.createUser = async (req, res) => {
 };
 exports.connexion = async (req, res) => {
   try {
-    const { user_id, password } = req.body;
+    const { email, password } = req.body;
     const userfinder = await prisma.user.findUnique({
-      where: { mail: user_id },
+      where: { email: email },
     });
 
     if (!userfinder) {
@@ -49,14 +49,14 @@ exports.connexion = async (req, res) => {
     const compare = await argon2.verify(userfinder.password, password);
 
     if (compare) {
-      req.session.user_id = userfinder.user_id;
+      req.session.user_id = userfinder.email;
       return res
         .status(200)
-        .json({ message: "bienvenue", user: userfinder.user_id });
+        .json({ message: "bienvenue", user: userfinder.email });
     } else {
       return res
         .status(401)
-        .json({ message: "mot de passe ou userId incorrect" });
+        .json({ message: "mot de passe ou  email incorrect" });
     }
   } catch (error) {
     res.status(500).json({
@@ -67,32 +67,26 @@ exports.connexion = async (req, res) => {
 };
 
 exports.userDelete = async (req, res) => {
-  async function finder(user_id) {
+  async function finder(email) {
     return await prisma.user.findUnique({
       where: {
-        user_id: user_id,
+        email: email,
       },
     });
   }
   try {
-    const { user_id } = req.params;
-    finder(user_id);
-    if (!user_id) {
+    const { email } = req.params;
+    finder(email);
+    if (!email) {
       res.status(204).json({
         message: "User doesn't exit !",
       });
     }
     const deleted = await prisma.user.delete({
       where: {
-        user_id: user_id,
+        email: email,
       },
     });
-
-    await logAdminAction(
-      req.session.admin_id,
-      "suppression utilisateur",
-      `suppression utilisateur ${deleted.user_id} (${deleted.nom})`
-    );
 
     res.status(202).json({
       message: "user deleted successfully",
