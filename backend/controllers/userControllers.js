@@ -1,7 +1,6 @@
 const argon2 = require("argon2");
-const prisma = require("../config/prismaClient");
+const prisma = require("../config/prismaClient").default;
 const session = require("express-session");
-const { logAdminAction } = require("../log/logger.controller");
 
 exports.createUser = async (req, res) => {
   try {
