@@ -42,10 +42,9 @@ model Event {
   date          DateTime
   location      String
 
-  quantity       Int @default(1)
   availableTickets Int
 
-  ticketsSold   Int       @default(0)
+  ticketsSold   Int?       @default(0)
   
   tickets       Ticket[]
   priceTickets Typetickets[] @relation("priceTickets")
