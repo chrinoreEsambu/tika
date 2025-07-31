@@ -20,8 +20,16 @@ exports.event = async (req, res) => {
         date: date,
         location: location,
         availableTickets: availableTickets,
-        priceTickets: priceAndTypeTickets
-      }
+        priceTickets: {
+          create: priceAndTypeTickets.map((ticketobj) => ({
+            price: ticketobj.price,
+            type: ticketobj.type,
+          })),
+        },
+      },
+      include: {
+        priceTickets: true,
+      },
     });
 
     res.status(201).json({
