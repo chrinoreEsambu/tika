@@ -10,8 +10,9 @@ exports.event = async (req, res) => {
       date,
       location,
       availableTickets,
-      priceTickets,
+      priceAndTypeTickets,
     } = req.body;
+
     const creatEvent = await prisma.event.create({
       data: {
         title: title,
@@ -19,27 +20,18 @@ exports.event = async (req, res) => {
         date: date,
         location: location,
         availableTickets: availableTickets,
-        priceTickets: {
-          create: priceTickets.map((ticket) => ({
-            type: ticket.type,
-            price: ticket.price,
-          })),
-        },
-      },
-      include: {
-        priceTickets: true,
-      },
+        priceTickets: priceAndTypeTickets
+      }
     });
+
     res.status(201).json({
       message: "your event have been created successfully",
       creatEvent,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "error during event creation",
-        error: { message: error.message },
-      });
+    res.status(500).json({
+      message: "error during event creation",
+      error: { message: error.message },
+    });
   }
 };

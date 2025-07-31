@@ -58,11 +58,11 @@ enum Tickets{
 model Typetickets{
   tickets_id String @id @default(uuid())
 
-  price Float
-  type Tickets @default(Standard)
-
   eventId String
   event     Event  @relation("priceTickets",fields: [eventId], references: [id_event])
+
+  price Float
+  type Tickets @default(Standard)
 
   typeOfTicket Ticket[] @relation("typeOfTicket")
 }
