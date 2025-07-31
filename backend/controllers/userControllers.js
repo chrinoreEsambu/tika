@@ -122,3 +122,9 @@ exports.logOut = async (req, res) => {
     });
   }
 };
+
+exports.guestUser = async () => {
+  const { name, phone, email, address, quantity } = req.body;
+  // const {}
+
+};
