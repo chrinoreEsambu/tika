@@ -36,9 +36,8 @@ exports.getEventsById = async (req, res) => {
         description: true,
         date: true,
         location: true,
-        
+        priceTickets: true,
       },
-      
     });
     if (!findAllEvent) {
       return res.status(404).json({ message: "Event not found" });
