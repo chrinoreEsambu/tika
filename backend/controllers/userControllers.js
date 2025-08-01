@@ -49,7 +49,7 @@ exports.connexion = async (req, res) => {
     const compare = await argon2.verify(userfinder.password, password);
 
     if (compare) {
-      req.session.user_id = userfinder.email;
+      req.session.email = userfinder.email;
       return res
         .status(200)
         .json({ message: "bienvenue", user: userfinder.email });

@@ -48,6 +48,8 @@ model Event {
   
   priceTickets Typetickets[] @relation("priceTickets")
   tickets       Ticket[]
+
+  createAt DateTime @default(now())
   
 }
 
