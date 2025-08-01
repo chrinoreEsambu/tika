@@ -10,5 +10,5 @@ router.post("/api/createUser", validate, userControllers.createUser);
 router.post("/api/createEvent", createEvents.event);
 
 router.get("/api/getEvent", getEventsControllers.getEvents);
-
+router.get("/api/getEventById/:event_id", getEventsControllers.getEventsById);
 module.exports = router;

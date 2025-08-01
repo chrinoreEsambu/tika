@@ -4,7 +4,7 @@ const prisma = require("../config/prismaClient");
 exports.getEvents = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = 6;
-  const jumper = (page-1)*limit;
+  const jumper = (page - 1) * limit;
   try {
     const findAllEvent = await prisma.event.findMany({
       skip: jumper,
@@ -17,5 +17,34 @@ exports.getEvents = async (req, res) => {
       },
     });
     res.status(200).json({ message: "event available", findAllEvent });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getEventsById = async (req, res) => {
+  const { event_id } = req.params;
+
+  try {
+    const findAllEvent = await prisma.event.findUnique({
+      where: {
+        id_event: event_id,
+      },
+      select: {
+        id_event: true,
+        title: true,
+        description: true,
+        date: true,
+        location: true,
+        
+      },
+      
+    });
+    if (!findAllEvent) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+    res.status(200).json({ message: "event available", findAllEvent });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
