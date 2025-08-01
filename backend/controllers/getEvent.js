@@ -3,9 +3,8 @@ const prisma = require("../config/prismaClient");
 const session = require("express-session");
 
 exports.getEvents = async (req, res) => {
-    try {
-        
-    } catch (error) {
-        
-    }
+  try {
+    const findAllEvent = await prisma.event.findMany();
+    res.status(200).json({ message: "event available", findAllEvent });
+  } catch (error) {}
 };
